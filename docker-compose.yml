@@ -1,0 +1,67 @@
+##version: '3.8'
+##
+##services:
+##  # Spring Boot Application
+##  spring-boot-app:
+##    image: openjdk:17-jdk-alpine
+##    platform: linux/amd64
+##    ports:
+##      - "8080:8080"
+##    volumes:
+##      - .:/app
+##    working_dir: /app
+##
+##    command: ["./mvnw", "spring-boot:run"]
+##
+##  # Angular Frontend
+##  angular-app:
+##    image: nginx:alpine
+##    platform: linux/amd64
+##    ports:
+##      - "80:80"
+##    volumes:
+##      - ./pos-webapp/universal-pos-ui:/usr/share/nginx/html
+##
+##  # Database (if applicable)
+##  # db:
+##  #   image: postgres:latest
+##  #   environment:
+##  #     POSTGRES_DB: your_database
+##  #     POSTGRES_USER: your_user
+##  #     POSTGRES_PASSWORD: your_password
+##  #   ports:
+##  #     - "5432:5432"
+##
+### Add any other services or configurations as needed
+#version: '3.8'
+#
+#services:
+#  # Combined Application
+#  combined-app:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    platform: linux/amd64
+#    ports:
+#      - "8080:8080"
+#      - "80:80"
+
+
+version: '3.8'
+
+services:
+  backend:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: ./pos-service/Dockerfile.backend
+    ports:
+      - "8080:8080"
+
+  frontend:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: ./pos-webapp/Dockerfile.frontend
+    ports:
+      - "4200:4200"

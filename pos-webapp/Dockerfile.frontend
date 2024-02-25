@@ -1,0 +1,10 @@
+# Build Stage for Angular Frontend
+FROM node:14 AS angular-build
+WORKDIR /usr/src/app
+COPY ./pos-webapp/src/webapp/universal-pos-ui .
+RUN npm install
+RUN npm run build
+
+# Runtime Stage
+FROM nginx:alpine AS frontend-runtime
+COPY --from=angular-build /usr/src/app/dist/universal-pos-ui /usr/share/nginx/html
